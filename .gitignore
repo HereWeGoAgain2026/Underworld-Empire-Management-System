@@ -1,0 +1,1 @@
+# Exclude build artifacts\nUnderworldEmpire.exe\n*.exe\n*.o\n*.obj\n*.log\nsave/savegame.txt\n

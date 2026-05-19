@@ -1,0 +1,28 @@
+=== UNDERWORLD SAVE ===
+17
+=== PLAYER ===
+Unknown
+-4662
+56
+58
+Enforcer
+16
+0
+0
+0
+0
+0
+22932
+3
+2
+0
+=== MEMBERS ===
+1
+Fighter|Viktor Mendez|47|46|573|1|1|0
+=== TERRITORIES ===
+0
+=== POLICE ===
+58|0|3|2|0
+=== RIVALS ===
+0
+=== END ===

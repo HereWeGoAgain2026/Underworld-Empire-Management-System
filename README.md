@@ -1,14 +1,37 @@
 # Underworld Empire Management System
-> **Strategic Crime Network Simulation using Object-Oriented Programming in C++**
-> *Version 2.0 (Cyberpunk Terminal Edition)*
+
+<p align="center">
+  <img src="banner.png" alt="Underworld Empire Banner" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/C%2B%2B-14%20%2F%2017-00599C?style=for-the-badge&logo=c%2B%2B" alt="C++ Standard">
+  <img src="https://img.shields.io/badge/OS-Windows%20%7C%20Linux%20%7C%20macOS-0078D4?style=for-the-badge" alt="Platform Support">
+  <img src="https://img.shields.io/badge/Paradigm-OOP%20%26%20Polymorphism-red?style=for-the-badge" alt="Object-Oriented Programming">
+  <img src="https://img.shields.io/badge/Theme-Cyberpunk%20Crime-darkgreen?style=for-the-badge" alt="Theme">
+</p>
 
 ---
 
 ## 🌌 Overview
 
-The **Underworld Empire Management System** is a text-based, cinematic strategy simulation game built entirely in Modern C++ using advanced Object-Oriented Programming (OOP) principles. 
+The **Underworld Empire Management System** is a terminal-based, cinematic strategy simulation game built in **C++** using advanced **Object-Oriented Programming (OOP)** principles. 
 
-In this game, the player steps into the shoes of an underground operator starting with a single territory and zero crew. The goal is to grow the organization into a dominant criminal empire by balancing financial growth, hiring specialized crew members, conquering rival territories, dealing with persistent police heat, fighting off rival cartels, and managing black market goods.
+Set in a retro-futuristic cyberpunk metropolis, you play as an aspiring crime boss starting with zero territory and a clean sheet. Your objective: build a dominant syndicate, claim city zones, recruit specialized operatives, execute complex high-stakes operations, buy black market gear, manage police heat, and defend your operations against rival cartels.
+
+---
+
+## ✨ Features
+
+- **🎮 Cinematic Text UI Engine**: ANSI escape codes provide smooth colors, animated typewriter effects, flashing warnings, visual custom progress bars, and custom grid borders.
+- **👥 Polymorphic Crew Management**: Recruit and manage 4 specialized roles (`Fighter`, `Hacker`, `Driver`, `Smuggler`), each inheriting from an abstract base class with distinct capabilities, salaries, and special abilities.
+- **🗺️ Interactive City Map**: Claim and protect a dynamic grid of 8 unique territories generating turn-based income. Defend them against rival gang invasions by upgrading fortifications.
+- **🚨 Polymorphic Missions**: Execute 5 distinct operation types (`Robbery`, `Smuggling`, `Hacking`, `Racing`, `Heist`), each with custom success formulas, reward weightings, risk profiles, and unique narrative results.
+- **🚓 Escalating Police System**: Heat levels dynamically rise with criminal activity. High heat triggers SWAT raids, assets frozen, and territory locks unless mitigated via bribes or cyber hacks.
+- **🤖 Rival Cartel AI**: Computer-controlled factions actively contest zones, execute operations, block your income streams, and launch territory counter-attacks.
+- **🛒 Cyber Black Market**: Buy from 16 unique items categorized into Weapons, Armor, Vehicles, and Intel to permanently boost crew performance.
+- **📰 Dynamic Event Ticker**: 16 random world events (informant leaks, stock market crashes, warehouse fires, money laundering windfalls) that shift game variables every turn.
+- **💾 Local Save & Load System**: Pipe-delimited file serialization to save progress locally and resume later.
 
 ---
 
@@ -16,94 +39,221 @@ In this game, the player steps into the shoes of an underground operator startin
 
 This project is built from scratch utilizing the following software engineering paradigms:
 
-- **Core Language**: C++14 / C++17
-- **Encapsulation**: Private and protected data structures for all domain systems (`Player`, `GangMember`, `Territory`, `Mission`, `Police`, `RivalGang`, `BlackMarket`, `NewsSystem`) managed via getter/setter interfaces.
-- **Inheritance**: 
-  - Abstract `GangMember` base class inherited by specialized classes: `Fighter`, `Hacker`, `Driver`, and `Smuggler`.
-  - Abstract `Mission` base class inherited by custom mission handlers: `RobberyMission`, `SmugglingMission`, `HackingMission`, `RacingMission`, and `HeistMission`.
-- **Polymorphism**:
-  - Virtual functions override member attributes and behavior dynamics (e.g., calling `specialAbility()` or running custom mission equations in `execute()`).
-- **File Handling**: Game state serialization using pipe-delimited data structures processed via `std::ifstream` and `std::ofstream`.
-- **Visual Design System**: Custom ANSI code-based render engine providing animated typing, text delays, color hierarchies, custom progress bars, and an ASCII city-map interface.
+### 🧩 System Architecture (Mermaid Class Diagrams)
+
+#### 1. Crew Class Hierarchy (`GangMember`)
+```mermaid
+classDiagram
+    class GangMember {
+        <<Abstract>>
+        #string name
+        #string type
+        #int loyalty
+        #int strength
+        #int salary
+        #int level
+        #bool alive
+        #bool arrested
+        +displayInfo()* void
+        +specialAbility()* string
+        +getSpecialBonus()* int
+        +levelUp() void
+        +checkBetrayal() bool
+        +saveToFile(ofstream&) void
+        +loadFromFile(ifstream$) GangMember$
+    }
+    class Fighter {
+        +displayInfo() void
+        +specialAbility() string
+        +getSpecialBonus() int
+    }
+    class Hacker {
+        +displayInfo() void
+        +specialAbility() string
+        +getSpecialBonus() int
+    }
+    class Driver {
+        +displayInfo() void
+        +specialAbility() string
+        +getSpecialBonus() int
+    }
+    class Smuggler {
+        +displayInfo() void
+        +specialAbility() string
+        +getSpecialBonus() int
+    }
+    GangMember <|-- Fighter
+    GangMember <|-- Hacker
+    GangMember <|-- Driver
+    GangMember <|-- Smuggler
+```
+
+#### 2. Mission Class Hierarchy (`Mission`)
+```mermaid
+classDiagram
+    class Mission {
+        <<Abstract>>
+        #string name
+        #string description
+        #string type
+        #int difficulty
+        #int moneyReward
+        #int respectReward
+        #int heatCost
+        #int requiredStrength
+        +execute(int, int, int, int)* MissionResult
+        +displayMission()* void
+    }
+    class RobberyMission {
+        +execute(...) override MissionResult
+        +displayMission() override void
+    }
+    class SmugglingMission {
+        +execute(...) override MissionResult
+        +displayMission() override void
+    }
+    class HackingMission {
+        +execute(...) override MissionResult
+        +displayMission() override void
+    }
+    class RacingMission {
+        +execute(...) override MissionResult
+        +displayMission() override void
+    }
+    class HeistMission {
+        +execute(...) override MissionResult
+        +displayMission() override void
+    }
+    Mission <|-- RobberyMission
+    Mission <|-- SmugglingMission
+    Mission <|-- HackingMission
+    Mission <|-- RacingMission
+    Mission <|-- HeistMission
+```
+
+---
+
+## 🔍 OOP Code Highlights
+
+Here are key examples of how inheritance, abstraction, and dynamic polymorphism are implemented:
+
+### 1. Abstract Base Class & Polymorphism: `GangMember`
+The game maintains a roster of `GangMember` pointers. When iterating through the crew, the virtual function binding dynamically resolves the subclass at runtime:
+
+```cpp
+// Iterate through the crew and execute specialized abilities
+for (auto* member : crew) {
+    if (member->isAlive() && !member->isArrested()) {
+        // Dynamic binding displays subclass specific details and applies bonuses
+        member->displayInfo(); 
+        std::cout << "Ability: " << member->specialAbility() << std::endl;
+        totalBonus += member->getSpecialBonus();
+    }
+}
+```
+
+### 2. Base Class Construction with Derived Overrides: `Mission`
+Derived mission types pass specialized initialization data to the base constructor and override the `execute` method to run custom success algorithms:
+
+```cpp
+// Constructor for a specific Smuggling Mission
+SmugglingMission::SmugglingMission(const std::string& name, int difficulty, int reward)
+    : Mission(name, "Transport illegal black market cybernetics across state borders.", 
+              "Smuggling", difficulty, reward, difficulty * 1.5, 12, difficulty * 8) {}
+
+// Custom execution logic for smuggling operations
+MissionResult SmugglingMission::execute(int teamStrength, int specialBonus, int heatLevel, int memberCount) {
+    // Escape-focused formulas factoring in Smuggler skills & Drivers
+    double escapeModifier = 1.0 + (specialBonus / 100.0);
+    double successChance = ((teamStrength * escapeModifier) / (difficulty * 1.2)) * 100.0;
+    
+    // Result resolution logic...
+}
+```
 
 ---
 
 ## 🎮 Core Game Systems
 
-### 1. Player Progression (`Player`)
-Tracks your resources: cash, respect (reputation), and police heat level. Rank dynamically upgrades as your score grows:
+### 1. Player Progression & Ranks
+Your rank scales automatically based on your resources (Cash and Respect), moving from **Street Rat** up to **Kingpin**:
 $$\text{Street Rat} \rightarrow \text{Hustler} \rightarrow \text{Enforcer} \rightarrow \text{Boss} \rightarrow \text{Kingpin}$$
 
-### 2. Crew Management (`GangMember`)
-Hire and manage crew members. Each class brings unique capabilities:
-- **Fighter**: Boosts operation combat power.
-- **Hacker**: Constantly reduces police heat and excels at digital hacks.
-- **Driver**: Increases mission escape and racing success.
-- **Smuggler**: Maximizes profits from territory income.
+### 2. Crew Management
+Hire crew members from the dynamic market. Each class offers unique turn-based modifiers and mission boosts:
+- ⚔️ **Fighter**: Boosts territory defense, and operational firepower.
+- 💻 **Hacker**: Reduces global police heat every turn and unlocks high-yield hacks.
+- 🚗 **Driver**: Increases escape chances on failure and improves racing speed.
+- 📦 **Smuggler**: Boosts income rates across all owned territories.
 
-*Operatives have a dynamic loyalty meter. Low loyalty can trigger defection to rival gangs, money theft, or police tip-offs.*
+*Note: Operatives have a loyalty stat. Low loyalty may cause them to pocket syndicate money, leak Intel to rival gangs, or tip off the police.*
 
-### 3. Territory Domination (`Territory`)
-Command a grid of 8 unique city zones (e.g., *The Docks*, *Downtown*, *Neon Strip*). Attack neutral or rival territories to claim them. Claims increase your turn-by-turn cashflow, but require upgrading defenses to repel hostile counter-attacks.
+### 3. Territory Domination
+Own and upgrade a city grid containing **8 unique territories**:
+1. *Downtown Core*
+2. *The Docks*
+3. *Industrial Sector*
+4. *Neon Strip*
+5. *Suburbs*
+6. *Chemical Yards*
+7. *Finance District*
+8. *Ghetto Outpost*
 
-### 4. Interactive Operations (`Mission`)
-Embark on high-stakes missions. Success probability scales dynamically based on crew layout, current heat, and item equipment. Rewards range from huge currency gains to permanent respect, while failure risks crew arrest or casualties.
+Upgrade **Defense Levels** in owned territories to block rival syndicate invasions.
 
-### 5. Police Network (`Police`)
-As your heat grows, law enforcement intensity scales. High heat levels trigger investigations, asset/cash seizures, territory shutdowns, and SWAT raids. Mitigate threats by buying off corrupted officers.
-
-### 6. Rival Cartels (`RivalGang`)
-Four active computer-controlled factions compete for territories, wage wars, intercept your income channels, and launch attacks against your properties.
-
-### 7. Black Market Exchange (`BlackMarket`)
-Purchase 16 specialized items categorized into Weapons, Armor, Vehicles, and Intel to permanently boost combat stats, defense strength, escape multipliers, and security features.
-
-### 8. Live Events & News Network (`NewsSystem`)
-Features a news ticker tracking events and changes in the city. Contains 16 random world events (e.g., informant leaks, money laundering windfalls, warehouse fires, market crashes) that alter variables each turn.
+### 4. Police Intensity & SWAT Raids
+As your Heat index reaches critical numbers:
+- **Heat > 40**: Fines and investigation warnings.
+- **Heat > 60**: Faction assets and cash are seized.
+- **Heat > 80**: SWAT Raids take place, causing direct gunfights, crew arrests, and territory lockdowns.
 
 ---
 
-## 📁 File Structure
+## 🛒 Cyber Black Market
 
-```
-/
-├── main.cpp             # Game entry point
-├── game.h / .cpp        # Main game engine loop, startup logic
-├── game_menus.cpp       # GUI command handlers and menus
-├── utils.h              # Visual rendering utilities (ansi/delays/formats)
-├── player.h / .cpp      # Player metrics and rank management
-├── member.h / .cpp      # Polymorphic crew hierarchies and factory
-├── territory.h / .cpp   # Area claims, defense, and ASCII map renderer
-├── mission.h / .cpp     # Mission variants and resolution equations
-├── police.h / .cpp      # Police alerts, raids, and bribes
-├── rivalgang.h / .cpp   # AI cartel behaviors and declarations
-├── blackmarket.h / .cpp # Market inventories and transaction logic
-├── news.h / .cpp        # Headlines and random event pool
-├── build.bat            # Windows MS-DOS compilation script
-└── save/                # Output save file folder
-```
+Purchase 16 items categorized to bolster your crew and operations:
+
+| Category | Item Name | Cost | Attribute Boost |
+| :--- | :--- | :--- | :--- |
+| **Weapons** | Heavy Combat Rifle | $12,000 | +15 Base Team Strength |
+| **Weapons** | Tactical Shotgun | $8,500 | +10 Base Team Strength |
+| **Weapons** | Cyber-Blade | $5,000 | +5 Base Team Strength |
+| **Weapons** | Smart Sniper | $20,000 | +25 Base Team Strength |
+| **Armor** | Kevlar Vest | $4,000 | +5 Defense Multiplier |
+| **Armor** | Exosuit Chassis | $18,000 | +20 Defense Multiplier |
+| **Armor** | Nanoshield Matrix | $30,000 | +35 Defense Multiplier |
+| **Armor** | Riot Shield | $7,500 | +10 Defense Multiplier |
+| **Vehicles** | Muscle Car | $15,000 | +10% Escape Chance |
+| **Vehicles** | Armored Van | $25,000 | +15% Escape Chance, +5 Defense |
+| **Vehicles** | Superbike | $10,000 | +8% Escape Chance |
+| **Vehicles** | Hypercar | $50,000 | +25% Escape Chance |
+| **Intel** | Encrypted Decoy | $8,000 | -10 Heat Cost per turn |
+| **Intel** | Police Tracker | $15,000 | -15 Heat Cost per turn |
+| **Intel** | Signal Jammer | $25,000 | -25 Heat Cost per turn |
+| **Intel** | Fake IDs | $5,000 | -5 Heat Cost per turn |
 
 ---
 
 ## 🚀 Building and Running the Game
 
 ### Prerequisites
-- **Compiler**: Any GCC compiler supporting C++11 or higher (e.g. MinGW, MSVC, Clang).
+- A compiler supporting C++11, C++14, or C++17 (e.g. GCC, MSVC, Clang).
 
-### 🖥️ Windows Build
-1. Open Command Prompt (`cmd`) and navigate to the project directory.
-2. Run the build batch file:
+### 🖥️ Windows Build (g++)
+1. Clone or download the repository to your system.
+2. Open a terminal (`cmd` or `powershell`) in the directory.
+3. Run the automated build script:
    ```cmd
    build.bat
    ```
-3. Run the compiled game:
+4. Start the game:
    ```cmd
    UnderworldEmpire.exe
    ```
 
 ### 🐧 Linux / macOS Build
-1. Open your terminal and navigate to the folder.
-2. Compile using the terminal:
+1. Open your terminal in the directory.
+2. Compile the source modules:
    ```bash
    g++ -std=c++11 -o UnderworldEmpire main.cpp member.cpp territory.cpp mission.cpp police.cpp rivalgang.cpp blackmarket.cpp news.cpp player.cpp game.cpp game_menus.cpp -O2
    ```
@@ -114,7 +264,7 @@ Features a news ticker tracking events and changes in the city. Contains 16 rand
 
 ---
 
-## 💾 Save System Specifications
-All game parameters, dynamic vectors, and attributes are recorded in a pipe-delimited data structures block within `save/savegame.txt`. 
+## 💾 Game State & Data Serialization
+Save data is serialized inside `save/savegame.txt` using a safe pipeline-delimited structure (`|`). 
 
-To load your progress, select **Option 2 (Load Saved Operation)** during the terminal system boot sequence or run **Option 9** in the main command center.
+To load your operations, choose **Option 2 (Load Saved Operation)** on the boot screen or use **Option 9** in the command center.

@@ -1,1 +1,17 @@
-# Exclude build artifacts\nUnderworldEmpire.exe\n*.exe\n*.o\n*.obj\n*.log\nsave/\n
+# Build artifacts and executables
+UnderworldEmpire.exe
+*.exe
+*.o
+*.obj
+*.log
+
+# Save data and local config
+save/
+.vscode/
+.idea/
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.db

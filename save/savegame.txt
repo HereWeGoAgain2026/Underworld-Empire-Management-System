@@ -1,0 +1,43 @@
+=== UNDERWORLD SAVE ===
+115
+=== PLAYER ===
+Pablo Escobar
+368654
+100
+46
+Kingpin
+114
+3
+0
+4
+4
+1
+1048952
+14
+16
+7
+=== MEMBERS ===
+4
+Hacker|Ember Volkov|75|30|713|1|1|1
+Fighter|Viktor Mendez|23|63|1121|3|1|1
+Hacker|Raven Blackwood|14|68|1231|4|1|0
+Fighter|Hex DeLuca|28|82|1213|3|1|0
+=== TERRITORIES ===
+8
+The Docks|800|35|player|55|0
+Downtown|1500|55|player|60|1
+The Slums|500|20|player|30|1
+Port District|1200|50|player|35|1
+Industrial Zone|1000|45|player|30|1
+Neon Strip|1800|70|player|50|1
+Old Town|600|25|player|35|1
+The Highrise|2000|80|player|60|1
+=== POLICE ===
+46|1|0|1|5
+=== RIVALS ===
+4
+Iron Syndicate|Dmitri Volkov|49|1|21|0|2645
+Crimson Serpents|Mei Ling Chen|5|1|20|1|7920
+Shadow Collective|Marcus Kane|80|1|46|1|3000
+Neon Cartel|Isabella Reyes|5|1|10|1|9560
+=== END ===
